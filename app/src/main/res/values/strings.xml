@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AppNamu</string>
+    <string name="default_web_client_id">441765585807-ojer0f21q3tq899fgnf9sjvllqo2eeqn.apps.googleusercontent.com
+    </string>
+    <string name="bar_crear">Crear Nueva Reserva</string>
+    <string name="bar_reservas">Reservas</string>
+    <string name="detalle_de_la_reserva">Detalle de la Reserva</string>
+    <string-array name="status_options">
+        <item>Pendiente</item>
+        <item>Asistió</item>
+        <item>Cancelado</item>
+        <item>Inasistió</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_alert_dialog_reserva">Reserva realizada con exito</string>
+    <string name="cancel">Cancelar</string>
+    <string name="decline">Regresar</string>
+    <string name="accept">Aceptar</string>
+    <string name="message_dialog_reserva">Su reserva ha sido aceptada\nSe le ha enviado un correo de confirmacion
+    </string>
+</resources>

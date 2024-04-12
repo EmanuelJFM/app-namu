@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "441765585807",
+    "project_id": "namu-movil",
+    "storage_bucket": "namu-movil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441765585807:android:b68377cfe238b0020ea1fa",
+        "android_client_info": {
+          "package_name": "com.example.namumovil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441765585807-vuvniol5mft48fcocl8p80ikpjv3kl93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.namumovil",
+            "certificate_hash": "dfae303d23af97b71acadca8a4361d3830443651"
+          }
+        },
+        {
+          "client_id": "441765585807-ojer0f21q3tq899fgnf9sjvllqo2eeqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr9K3795vJVHJXcUldZh9Le5Wu4YOX0MY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441765585807-ojer0f21q3tq899fgnf9sjvllqo2eeqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

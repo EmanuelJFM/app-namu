@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fondo"
+            android:gravity="center"
+    >
+        <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/cardview_light_background"
+                android:src="@drawable/logo"
+                android:layout_marginBottom="50dp"
+        />
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="8dp"
+                app:contentPadding="16dp"
+        >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" android:gravity="center_horizontal">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="16dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="INICIAR SESIÓN"
+                            android:fontFamily="@font/rubi"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="¡Ingresa a nuestra ventana de login y déjanos llevarte a un viaje gastronómico inolvidable en Restaurante Namu!"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textAlignment="center"/>
+                    <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:endIconMode="clear_text"
+                            android:hint="Ingrese su correo">
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/txtEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                        />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:errorEnabled="true"
+                            app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/txtPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:hint="Ingrese su contraseña"
+                        />
+                        <TextView
+                                android:id="@+id/lblRestartPassword"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¿Olvidó su contraseña?"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="?android:attr/textColorSecondary"
+                        />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnLogin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="40dp"
+                            android:text="Ingresar"
+                            android:textColor="@color/cardview_light_background"
+                            android:backgroundTint="@color/CustomColor1"
+                            style="?attr/borderlessButtonStyle"
+                    />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="o"
+                    />
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGoogle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:textColor="@color/cardview_light_background"
+                            android:backgroundTint="@color/CustomColor1"
+                            app:icon="@drawable/google2"
+                            android:paddingLeft="35dp"
+                            app:iconTint="@color/cardview_light_background"
+                            style="?attr/borderlessButtonStyle"
+                    />
+                </LinearLayout>
+                <TextView
+                        android:id="@+id/lblCreateAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Crea tu cuenta aquí"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary"
+                />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</RelativeLayout>

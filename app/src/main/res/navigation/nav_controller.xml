@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/item_1">
+
+    <fragment
+            android:id="@+id/item_1"
+            android:name="com.example.namumovil.fragments.HomeFragment"
+            android:label="Inicio"
+            tools:layout="@layout/fragment_home" />
+
+    <fragment
+            android:id="@+id/item_2"
+            android:name="com.example.namumovil.fragments.CreateReservationFragment"
+            android:label="Nueva Reserva"
+            tools:layout="@layout/fragment_create_reservation" />
+
+    <fragment
+            android:id="@+id/item_3"
+            android:name="com.example.namumovil.fragments.SeeReservationFragment"
+            android:label="Mis Reservas"
+            tools:layout="@layout/fragment_see_reservation" />
+</navigation>

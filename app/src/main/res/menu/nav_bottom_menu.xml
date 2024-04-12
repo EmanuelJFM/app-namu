@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/item_1"
+            android:enabled="true"
+            android:icon="@drawable/bx_home_alt_2"
+            android:title="Inicio"/>
+    <item
+            android:id="@+id/item_2"
+            android:enabled="true"
+            android:icon="@drawable/baseline_add_circle_24"
+            android:title="Crear Reservas"/>
+    <item
+            android:id="@+id/item_3"
+            android:enabled="true"
+            android:icon="@drawable/bx_search_alt_2"
+            android:title="Mis Reservas"/>
+</menu>
