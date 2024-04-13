@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class GoogleAuth : Activity() {
@@ -58,6 +59,7 @@ class GoogleAuth : Activity() {
             }
         }
     }
+
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
@@ -65,6 +67,22 @@ class GoogleAuth : Activity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null) {
+                        // Guarda la información adicional del usuario en Firestore
+                        val db = Firebase.firestore
+                        val userMap = hashMapOf(
+                            "name" to user.displayName,
+                            "email" to user.email,
+                            "phone" to user.phoneNumber
+                        )
+                        val userId = user.uid
+                        db.collection("users").document(userId).set(userMap)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot added with ID: $userId")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding document", e)
+                            }
+
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -77,6 +95,7 @@ class GoogleAuth : Activity() {
                 }
             }
     }
+
 
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent

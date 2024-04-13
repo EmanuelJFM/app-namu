@@ -128,6 +128,8 @@
                         <com.google.android.material.textfield.TextInputLayout
                                 style="?attr/textInputFilledStyle"
                                 android:layout_width="match_parent"
+                                app:errorEnabled="true"
+                                app:endIconMode="password_toggle"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="15dp"
                                 android:hint="Confirmar contraseña">
@@ -135,6 +137,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:inputType="textPassword"
                                     android:id="@+id/txtConfirmPassword"
                                     android:background="@color/cardview_light_background"
                             />
