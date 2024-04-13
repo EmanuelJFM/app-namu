@@ -1,54 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context=".fragments.HomeFragment">
-    <LinearLayout
-            android:background="@drawable/logoprincipal"
-            android:gravity="center"
-            android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="50dp">
+            <ImageView
+                    android:id="@+id/iv_user_photo"
+                    android:src="@drawable/baseline_account_circle_24"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+            />
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bienvenido"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:layout_marginTop="20dp"/>
+                <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del usuario"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
+                <TextView
+                        android:id="@+id/tv_user_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Correo del usuario"
+                        android:textSize="16sp"/>
+            </LinearLayout>
+        </LinearLayout>
         <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restaurante Coreano"
+                android:text="Configuración"
                 android:textStyle="bold"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="25sp"/>
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp">
 
-        <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/logo"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
+                <TextView
+                        android:id="@+id/tv_actualizar_cuenta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Actualizar mi cuenta"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:drawableEnd="@drawable/bxs_user_account"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                <TextView
+                        android:id="@+id/tv_cancelar_pedido"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cancelar pedido"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:drawableEnd="@drawable/bx_calendar_x"
+                        android:clickable="true"
+                        android:focusable="true"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+
+                <TextView
+                        android:id="@+id/tv_queja_sugerencia"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Queja o sugerencia"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:drawableEnd="@drawable/bxl_gmail"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                <TextView
+                        android:id="@+id/tv_contactar_empresa"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Contactar con la empresa"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:drawableEnd="@drawable/bxs_phone_outgoing"
+                        android:clickable="true"
+                        android:focusable="true"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Actividades recientes -->
         <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_recent_activities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Namu"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="45sp"
-                android:textStyle="bold"/>
+                android:text="Mis actividades recientes"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
+        <!-- Card de visitas -->
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardElevation="4dp">
 
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCerrar"
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                <TextView
+                        android:id="@+id/tv_visitas_mes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Visitas realizadas en el mes"/>
+
+                <TextView
+                        android:id="@+id/tv_visitas_numero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"/>
+
+                <TextView
+                        android:id="@+id/tv_visitas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="visitas"
+                        android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textColor="@color/cardview_light_background"
-                android:backgroundTint="@color/cardview_dark_background"
-                app:icon="@drawable/bx_log_out"
-                app:iconGravity="textTop"
-                app:iconSize="35sp"
-                app:iconTint="@color/cardview_light_background"
-                style="?attr/borderlessButtonStyle"/>
+                android:text="Conoce Namu"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp">
+
+            <TextView
+                    android:id="@+id/tv_ver_carta"
+                    android:layout_marginRight="45dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ver carta del día"
+                    android:drawableEnd="@drawable/bxs_food_menu"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            <TextView
+                    android:id="@+id/tv_ver_local"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="25dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ver local cercano"
+                    android:drawableEnd="@drawable/bxs_store_alt"
+                    android:clickable="true"
+                    android:focusable="true"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="100dp">
+
+            <TextView
+                    android:id="@+id/tvCerrar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Cerrar sesión"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/bx_log_out"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/black"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="right">
+                <ImageView
+                        android:id="@+id/iv_facebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bxl_facebook_circle"
+                        android:padding="10dp"
+                        android:layout_marginStart="8dp"/>
+
+                <ImageView
+                        android:id="@+id/iv_instagram"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:src="@drawable/bxl_instagram_alt"
+                        android:layout_marginStart="8dp"/>
+
+                <ImageView
+                        android:id="@+id/iv_twitter"
+                        android:layout_width="wrap_content"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bxl_twitter"/>
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
-
-</FrameLayout>
+</RelativeLayout>

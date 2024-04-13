@@ -25,15 +25,15 @@ class CreateAccount : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.btnCreate.setOnClickListener {
-            val name = binding.txtName.text.toString()
-            val lastname = binding.txtLastname.text.toString()
-            val phone = binding.txtPhone.text.toString()
-            val email = binding.txtEmail.text.toString()
-            val password = binding.txtNewPassword.text.toString()
-            val confirmPassword = binding.txtConfirmPassword.text.toString()
-
+            val name = binding.txtName.text.toString().trim()
+            val lastname = binding.txtLastname.text.toString().trim()
+            val fullName = "$name $lastname"
+            val phone = binding.txtPhone.text.toString().trim()
+            val email = binding.txtEmail.text.toString().trim()
+            val password = binding.txtNewPassword.text.toString().trim()
+            val confirmPassword = binding.txtConfirmPassword.text.toString().trim()
             if (password == confirmPassword) {
-                createAccount(name, lastname, phone, email, password)
+                createAccount(fullName, phone, email, password)
             } else {
                 AlertDialog.Builder(this)
                     .setTitle("Error")
@@ -44,25 +44,27 @@ class CreateAccount : AppCompatActivity() {
         }
     }
 
-    private fun createAccount(name: String, lastname: String, phone: String, email: String, password: String) {
+    private fun createAccount(fullname: String, phone: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Guarda la información adicional del usuario en Firestore
                     val db = Firebase.firestore
                     val userMap = hashMapOf(
-                        "name" to name,
-                        "lastname" to lastname,
+                        "name" to fullname,
                         "phone" to phone,
                         "email" to email
                     )
-                    db.collection("users").add(userMap)
-                        .addOnSuccessListener { documentReference ->
-                            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w(TAG, "Error adding document", e)
-                        }
+                    val userId = auth.currentUser?.uid
+                    if (userId != null) {
+                        db.collection("users").document(userId).set(userMap)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot added with ID: $userId")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding document", e)
+                            }
+                    }
                     updateUI(auth.currentUser)
                 } else {
                     AlertDialog.Builder(this)

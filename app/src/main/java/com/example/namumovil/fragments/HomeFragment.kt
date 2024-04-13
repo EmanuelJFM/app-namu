@@ -1,22 +1,39 @@
 package com.example.namumovil.fragments
 
+import android.app.AlertDialog
+import android.companion.CompanionDeviceManager.RESULT_OK
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.GridView
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.namumovil.LoginForm
 import com.example.namumovil.R
 import com.example.namumovil.databinding.FragmentHomeBinding
+import com.example.namumovil.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel:UserViewModel
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -32,15 +49,82 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         initializeFirebaseAuth()
         initializeGoogleSignInClient()
 
-        binding.btnCerrar.setOnClickListener {
+        binding.tvCerrar.setOnClickListener {
             signOutAndStartLoginFormActivity()
         }
-    }
+        viewModel.getCurrentUserData().observe(viewLifecycleOwner, Observer { user ->
+            binding.tvUserName.text = user.name
+            binding.tvUserEmail.text = user.email
+        })
+        binding.tvVerCarta.setOnClickListener {
+            viewModel.descargarPdfYMostrarChooser("Fridays_Carta.pdf", requireContext())
+        }
+        binding.ivFacebook.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com"))
+            startActivity(intent)
+        }
 
+        binding.ivInstagram.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com"))
+            startActivity(intent)
+        }
+
+        binding.ivTwitter.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com"))
+            startActivity(intent)
+        }
+        binding.tvVerLocal.setOnClickListener {
+            val lat = "-12.081989057826345"
+            val lon = "-77.0356646841694"
+            val url = "https://www.google.com/maps/search/?api=1&query=$lat,$lon"
+            val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(mapIntent)
+        }
+
+        binding.tvCancelarPedido.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Cancelar pedido")
+                .setMessage("Si desea cancelar un pedido por favor realizarlo precesialmente en nuetras sedes en todo Lima\n" +
+                        "Los horarios de atencion son de 11:00 am - 09:00 pm")
+                .setPositiveButton("Cerrar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+        binding.tvQuejaSugerencia.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Queja o sugerencia")
+                .setMessage("Para quejas o sugerencia, por favor remitir un correo a namuempresa@namu.com con el asunto\n" +
+                        "y evidenia para realizar la correspondiente investigacion, mcuhas gracias")
+                .setPositiveButton("Cerrar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+        binding.tvContactarEmpresa.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Contactar con la empresa")
+                .setMessage("Para contacatar a la empresa por reclamos o algun puesto laboral por favor\n" +
+                        "comunicarse con +51 987 654 321, para más dudas o consultas, remita un correo en\n" +
+                        "la seccion Queja o Sugerencia")
+                .setNegativeButton("Correo electrónico") { dialog, _ ->
+                    // Código para abrir el cliente de correo electrónico
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Llamada telefónica") { dialog, _ ->
+                    // Código para iniciar una llamada telefónica
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+    }
+    //Google auth logout
     private fun initializeFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance()
     }
@@ -52,7 +136,6 @@ class HomeFragment : Fragment() {
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
     }
-
     private fun signOutAndStartLoginFormActivity() {
         val user = mAuth.currentUser
         val providerId = user?.providerData?.get(1)?.providerId
@@ -73,7 +156,6 @@ class HomeFragment : Fragment() {
             activity?.finish()
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
