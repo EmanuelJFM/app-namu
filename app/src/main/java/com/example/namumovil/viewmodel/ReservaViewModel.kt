@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.namumovil.data.Repo
 import com.example.namumovil.model.Reserva
+import com.example.namumovil.model.User
 
 class ReservaViewModel(): ViewModel()  {
     private val repo = Repo()
