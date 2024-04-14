@@ -6,15 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.namumovil.R
 import com.example.namumovil.data.Repo
 import com.example.namumovil.databinding.FragmentCreateReservationBinding
 import com.example.namumovil.model.Reserva
+import com.example.namumovil.viewmodel.ReservaViewModel
+import com.example.namumovil.viewmodel.UserViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +27,7 @@ import java.util.*
 class CreateReservationFragment : Fragment() {
     private var _binding: FragmentCreateReservationBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +40,6 @@ class CreateReservationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // DatePicker
         val datePicker = createDatePicker()
         binding.etDate.setOnClickListener {
@@ -47,7 +51,6 @@ class CreateReservationFragment : Fragment() {
             val date = sdf.format(Date(it))
             binding.etDate.setText(date)
         }
-
         // TimePicker
         val timePicker = createTimePicker()
         binding.etTime.setOnClickListener {
@@ -58,6 +61,12 @@ class CreateReservationFragment : Fragment() {
             val time = String.format("%02d:%02d", timePicker.hour, timePicker.minute)
             binding.etTime.setText(time)
         }
+        val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel.getCurrentUserData().observe(viewLifecycleOwner, androidx.lifecycle.Observer { user ->
+            binding.etName.setText(user.name)
+            binding.etPhone.setText(user.phone)
+        })
+
         binding.btnRegister.setOnClickListener {
             // Validar que todos los campos estén llenos
             if (binding.etName.text.isNullOrEmpty() ||
@@ -71,15 +80,21 @@ class CreateReservationFragment : Fragment() {
             }
 
             val repo = Repo()
+            val reserva = Reserva(
+                binding.etName.text.toString(),
+                binding.etPhone.text.toString(),
+                binding.etNumPeople.text.toString(),
+                binding.etDate.text.toString(),
+                binding.etTime.text.toString(),
+                binding.etComments.text.toString()
+            )
+            // Asignar el ID del usuario logueado a la reserva
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                reserva.id = it.uid
+            }
             repo.saveReserva(
-                Reserva(
-                    binding.etName.text.toString(),
-                    binding.etPhone.text.toString(),
-                    binding.etNumPeople.text.toString(),
-                    binding.etDate.text.toString(),
-                    binding.etTime.text.toString(),
-                    binding.etComments.text.toString()
-                ),
+                reserva,
                 {
                     context?.let { it1 ->
                         MaterialAlertDialogBuilder(it1)
@@ -87,8 +102,6 @@ class CreateReservationFragment : Fragment() {
                             .setMessage(resources.getString(R.string.message_dialog_reserva))
                             .setIcon(resources.getDrawable(R.drawable.baseline_check_circle_24))
                             .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                                binding.etName.text?.clear()
-                                binding.etPhone.text?.clear()
                                 binding.etNumPeople.text?.clear()
                                 binding.etDate.text?.clear()
                                 binding.etTime.text?.clear()
@@ -98,7 +111,8 @@ class CreateReservationFragment : Fragment() {
                     }
                 },
                 {
-                    Toast.makeText(context, "Error guardando el registro", Toast.LENGTH_SHORT).show()
+                    // Mostrar un Toast en caso de error
+                    Toast.makeText(context, "Ocurrió un error al guardar la reserva", Toast.LENGTH_SHORT).show()
                 }
             )
         }

@@ -56,6 +56,7 @@ android:background="@drawable/fondo_principal">
                                     android:id="@+id/et_Name"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:enabled="false"
                                     android:background="@color/cardview_light_background"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -74,8 +75,8 @@ android:background="@drawable/fondo_principal">
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/cardview_light_background"
-                                    android:inputType="phone" />
-
+                                    android:inputType="phone"
+                            />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
                                 style="?attr/textInputFilledStyle"
