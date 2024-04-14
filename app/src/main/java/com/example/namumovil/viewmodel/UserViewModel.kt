@@ -24,10 +24,8 @@ class UserViewModel(): ViewModel() {
             val uri = FileProvider.getUriForFile(context, context.packageName + ".provider", file)
             intent.setDataAndType(uri, "application/pdf")
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
             // Crea un chooser para que el usuario pueda elegir la aplicación con la que abrir el archivo PDF
             val chooser = Intent.createChooser(intent, "Elige una aplicación para abrir el PDF")
-
             // Inicia el chooser
             context.startActivity(chooser)
         }
