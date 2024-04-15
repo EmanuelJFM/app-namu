@@ -40,28 +40,41 @@
                     android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-        >
-            <com.google.android.material.appbar.AppBarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-            android:background="@color/white">
-                <com.google.android.material.search.SearchBar
-                        android:id="@+id/search_bar"
-                        android:layout_width="match_parent"
-                        android:background="@color/black"
-                        android:layout_height="wrap_content"
-                        android:hint="Buscar en mis reservas" />
-            </com.google.android.material.appbar.AppBarLayout>
-            <com.google.android.material.search.SearchView
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:hint="Buscar en mis reservas"
-                    app:layout_anchor="@id/search_bar">
-            </com.google.android.material.search.SearchView>
+                    android:text="Filtrar:"
+                    android:textSize="16sp"
+                    android:padding="10dp"/>
+            <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:checkedButton="@+id/radio_button_0"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <RadioButton
+                        android:id="@+id/radio_button_0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Todas"/>
+                <RadioButton
+                        android:id="@+id/radio_button_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Pendiente"/>
+                <RadioButton
+                        android:id="@+id/radio_button_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cancelado"/>
+            </RadioGroup>
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
