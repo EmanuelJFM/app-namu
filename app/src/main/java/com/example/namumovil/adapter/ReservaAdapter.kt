@@ -3,18 +3,21 @@ package com.example.namumovil.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namumovil.R
 import com.example.namumovil.model.Reserva
+import com.example.namumovil.ItemClick
+import com.example.namumovil.viewmodel.ReservaViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class ReservaAdapter(private var reservas: MutableList<Reserva>) : RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder>() {
+class ReservaAdapter(private var reservas: MutableList<Reserva>, private val itemClick: ItemClick, private val viewModel: ReservaViewModel) : RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder>() {
 
     class ReservaViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvTicket: TextView = view.findViewById(R.id.tv_Ticket)
-        val tvCliente: TextView = view.findViewById(R.id.tv_Cliente)
-        val tvFecha: TextView = view.findViewById(R.id.tv_Fecha)
         val tvEstado: TextView = view.findViewById(R.id.tv_Estado)
+        val cancelButton: ImageButton = itemView.findViewById(R.id.cancelButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservaViewHolder {
@@ -25,15 +28,41 @@ class ReservaAdapter(private var reservas: MutableList<Reserva>) : RecyclerView.
     override fun onBindViewHolder(holder: ReservaViewHolder, position: Int) {
         val reserva = reservas[position]
         holder.tvTicket.text = reserva.ticket.toString()
-        holder.tvCliente.text = reserva.nombres
-        holder.tvFecha.text = reserva.fechaReserva
         holder.tvEstado.text = reserva.estado
+        holder.itemView.setOnClickListener {
+            itemClick.onItemClick(reserva)
+        }
+        holder.cancelButton.setOnClickListener {
+            MaterialAlertDialogBuilder(it.context)
+                .setTitle("Cancelar Reserva")
+                .setMessage("¿Estás seguro de que quieres cancelar esta reserva?")
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Sí") { dialog, _ ->
+                    // Actualiza el estado de la reserva a "Cancelado"
+                    viewModel.updateReservaEstado(reserva.reservaId, "Cancelado",
+                        onSuccess = {
+                            MaterialAlertDialogBuilder(it.context)
+                                .setTitle("Reserva Cancelada")
+                                .setMessage("Su reserva ha sido cancelada con exito")
+                                .setPositiveButton("Aceptar") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                        },
+                        onFailure = {
+
+                        }
+                    )
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
-
     override fun getItemCount() = reservas.size
-
     fun setListData(data: ArrayList<Reserva>) {
         reservas = data
-        notifyDataSetChanged() // Notifica al RecyclerView que los datos han cambiado
+        notifyDataSetChanged()
     }
 }
+

@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namumovil.R
 import com.example.namumovil.adapter.ReservaAdapter
 import com.example.namumovil.viewmodel.ReservaViewModel
+import com.example.namumovil.ItemClick
+import com.example.namumovil.databinding.FragmentSeeReservationBinding
+import com.example.namumovil.model.Reserva
+import com.google.firebase.auth.FirebaseAuth
 
-class SeeReservationFragment : Fragment() {
-
+class SeeReservationFragment : Fragment(), ItemClick {
+    private var _binding: FragmentSeeReservationBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: ReservaAdapter
     private lateinit var viewModel: ReservaViewModel
 
@@ -22,8 +27,8 @@ class SeeReservationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Infla el layout para este fragmento
-        return inflater.inflate(R.layout.fragment_see_reservation, container, false)
+        _binding = FragmentSeeReservationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,19 +37,21 @@ class SeeReservationFragment : Fragment() {
         // Inicializa el RecyclerView
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-
-        // Inicializa el adaptador
-        adapter = ReservaAdapter(ArrayList())
-        recyclerView.adapter = adapter
-
-        // Inicializa el ViewModel
         viewModel = ViewModelProvider(this).get(ReservaViewModel::class.java)
-
-        // Observa los datos de las reservas
-        viewModel.getReservaData().observe(viewLifecycleOwner, Observer { reservas ->
-            // Actualiza los datos del adaptador
+        adapter = ReservaAdapter(ArrayList(), this, viewModel)
+        recyclerView.adapter = adapter
+        val loggedInUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        viewModel.getReservaData(loggedInUserId).observe(viewLifecycleOwner, Observer { reservas ->
             adapter.setListData(ArrayList(reservas))
             adapter.notifyDataSetChanged()
         })
+    }
+
+    override fun onItemClick(reserva: Reserva) {
+        val detailReservationFragment = DetailReservationFragment.newInstance(reserva)
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, detailReservationFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }

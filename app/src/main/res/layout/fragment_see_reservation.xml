@@ -4,12 +4,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".fragments.SeeReservationFragment">
-
-    <ImageView
+<ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/fondo_principal"
+            android:src="@color/white"
             android:scaleType="centerCrop"
             tools:layout_editor_absoluteY="0dp"
             tools:layout_editor_absoluteX="-41dp"/>
@@ -18,81 +17,51 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="25dp"
             android:padding="15dp"
             android:layout_gravity="start"
-            android:background="@drawable/background_border_circle"
+            android:background="@color/white"
     >
-
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-        >
-            <TextView
-                    android:id="@+id/tvClientes"
-                    android:text="Cliente:"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            <SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_input"
-                    android:hint="Buscar ..."
-                    android:layout_weight="20"
-            />
-
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/green"
                 android:layout_marginTop="10dp"
                 android:padding="8dp"
-                android:gravity="center"
+                android:gravity="right"
         >
             <TextView
                     android:id="@+id/tv_TicketTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ticket"
-                    android:gravity="center"
+                    android:textSize="23sp"
+                    android:text="Mis reservas"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
                     android:layout_weight="1"/>
-            <TextView
-                    android:id="@+id/tv_ClienteTitle"
-                    android:layout_width="wrap_content"
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+        >
+            <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cliente"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:id="@+id/tv_FechaTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"/>
-            <TextView
-                    android:id="@+id/tv_EstadoTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estado"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"/>
+            android:background="@color/white">
+                <com.google.android.material.search.SearchBar
+                        android:id="@+id/search_bar"
+                        android:layout_width="match_parent"
+                        android:background="@color/black"
+                        android:layout_height="wrap_content"
+                        android:hint="Buscar en mis reservas" />
+            </com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.search.SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Buscar en mis reservas"
+                    app:layout_anchor="@id/search_bar">
+            </com.google.android.material.search.SearchView>
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -104,14 +73,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerInsetStart="16dp"
-                app:dividerInsetEnd="16dp"/>
-
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
     </LinearLayout>
-
-
 </FrameLayout>
