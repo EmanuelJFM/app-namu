@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.namumovil.R
@@ -16,19 +18,17 @@ import com.example.namumovil.viewmodel.UserViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-
 class CreateReservationFragment : Fragment() {
     private var _binding: FragmentCreateReservationBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: UserViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +37,6 @@ class CreateReservationFragment : Fragment() {
         _binding = FragmentCreateReservationBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // DatePicker
@@ -51,21 +50,23 @@ class CreateReservationFragment : Fragment() {
             val date = sdf.format(Date(it))
             binding.etDate.setText(date)
         }
-        // TimePicker
-        val timePicker = createTimePicker()
-        binding.etTime.setOnClickListener {
-            timePicker.show(childFragmentManager, "timePicker")
-        }
-        timePicker.addOnPositiveButtonClickListener {
-            // Convertir la hora y los minutos a un formato legible
-            val time = String.format("%02d:%02d", timePicker.hour, timePicker.minute)
-            binding.etTime.setText(time)
-        }
         val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.getCurrentUserData().observe(viewLifecycleOwner, androidx.lifecycle.Observer { user ->
             binding.etName.setText(user.name)
             binding.etPhone.setText(user.phone)
         })
+        val repo: Repo = Repo()
+        repo.getHorarios(
+            onSuccess = { horarios ->
+                // Crea un ArrayAdapter con los horarios
+                val adapter = ArrayAdapter(requireContext(), R.layout.item_horarios, horarios)
+                val autoCompleteTextView = binding.etTime
+                autoCompleteTextView.setAdapter(adapter)
+
+            },
+            onFailure = {
+
+            })
 
         binding.btnRegister.setOnClickListener {
             // Validar que todos los campos estén llenos
@@ -78,7 +79,6 @@ class CreateReservationFragment : Fragment() {
                 Toast.makeText(context, "Por favor, llena todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             val repo = Repo()
             val reserva = Reserva(
                 binding.etName.text.toString(),
@@ -88,7 +88,6 @@ class CreateReservationFragment : Fragment() {
                 binding.etTime.text.toString(),
                 binding.etComments.text.toString()
             )
-            // Asignar el ID del usuario logueado a la reserva
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 reserva.userId = it.uid
@@ -111,7 +110,6 @@ class CreateReservationFragment : Fragment() {
                     }
                 },
                 {
-                    // Mostrar un Toast en caso de error
                     Toast.makeText(context, "Ocurrió un error al guardar la reserva", Toast.LENGTH_SHORT).show()
                 }
             )
@@ -125,27 +123,15 @@ class CreateReservationFragment : Fragment() {
         val janThisYear = calendar.timeInMillis
         calendar[Calendar.MONTH] = Calendar.DECEMBER
         val decThisYear = calendar.timeInMillis
-
         val constraintsBuilder = CalendarConstraints.Builder()
             .setStart(janThisYear)
             .setEnd(decThisYear)
             .build()
-
         return MaterialDatePicker.Builder.datePicker()
             .setTitleText("Seleccione una fecha")
             .setCalendarConstraints(constraintsBuilder)
             .build()
     }
-
-    private fun createTimePicker(): MaterialTimePicker {
-        return MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_12H)
-            .setHour(12)
-            .setMinute(10)
-            .setTitleText("Seleccione una hora")
-            .build()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

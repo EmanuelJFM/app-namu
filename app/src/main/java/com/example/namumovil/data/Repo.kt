@@ -22,6 +22,7 @@ import java.io.File
 class Repo {
     private val reservaCollection: CollectionReference = FirebaseFirestore.getInstance().collection("Reservas")
     private val userCollection: CollectionReference = FirebaseFirestore.getInstance().collection("users")
+    private val horariosCollection: CollectionReference = FirebaseFirestore.getInstance().collection("horarios")
     private val storage = FirebaseStorage.getInstance()
     private val mutableData = MutableLiveData<MutableList<Reserva>>()
     private var ultimoNumeroTicket: Int = 1000
@@ -59,6 +60,26 @@ class Repo {
             onFailure(Exception("User not logged in"))
         }
     }
+    fun getHorarios(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
+        val horarios = mutableListOf<String>()
+        val db = horariosCollection
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val horarioList = document.get("horario") as? List<*>
+                    if (horarioList != null) {
+                        for (item in horarioList) {
+                            item?.let { horarios.add(it.toString()) }
+                        }
+                    }
+                }
+                onSuccess(horarios)
+            }
+            .addOnFailureListener { exception ->
+                onFailure()
+            }
+    }
+
 
     fun saveReserva(reserva: Reserva, onSuccess: () -> Unit, onFailure: () -> Unit) {
         ultimoNumeroTicket++

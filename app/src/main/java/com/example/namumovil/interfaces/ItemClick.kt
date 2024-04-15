@@ -1,4 +1,4 @@
-package com.example.namumovil
+package com.example.namumovil.interfaces
 
 import com.example.namumovil.model.Reserva
 
