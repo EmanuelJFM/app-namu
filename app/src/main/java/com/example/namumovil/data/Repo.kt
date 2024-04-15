@@ -1,5 +1,6 @@
 package com.example.namumovil.data
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -43,15 +44,14 @@ class Repo {
     }
 
     fun saveReserva(reserva: Reserva, onSuccess: () -> Unit, onFailure: () -> Unit) {
-
         ultimoNumeroTicket++
         val numeroTicket = ultimoNumeroTicket
         val estado = "Pendiente"
-
         reserva.ticket = numeroTicket
         reserva.estado = estado
-
-        reservaCollection.add(reserva)
+        val newDocRef = reservaCollection.document()
+        reserva.reservaId = newDocRef.id
+        newDocRef.set(reserva)
             .addOnSuccessListener {
                 onSuccess()
             }
@@ -59,28 +59,50 @@ class Repo {
                 onFailure()
             }
     }
-    fun getReservaData(): LiveData<MutableList<Reserva>> {
-            reservaCollection.get().addOnSuccessListener { result ->
+
+    fun getReservaData(loggedInUserId: String): LiveData<MutableList<Reserva>> {
+        reservaCollection.get().addOnSuccessListener { result ->
             val listData = mutableListOf<Reserva>()
             for (document in result){
-                val id = document.id
-                val nombres = document.getString("nombres")
-                val telefono = document.getString("telefono")
-                val cantPersonas = document.getString("cantidadPersonas")
-                val fechaReserva = document.getString("fechaReserva")
-                val horario = document.getString("horario")
-                val comentarios = document.getString("comentarios")
-                val ticketDouble = document.getDouble("ticket")
-                val ticket = ticketDouble?.toInt()
-                val estado = document.getString("estado")
-                val reserva = Reserva(nombres!!, telefono!!,
-                    cantPersonas!!, fechaReserva!!, horario!!, comentarios!!, ticket!!, estado!!, id!!)
-                listData.add(reserva)
+                val userReservaId = document.getString("userId")
+                if (userReservaId == loggedInUserId) {
+                    val nombres = document.getString("nombres")
+                    val telefono = document.getString("telefono")
+                    val cantPersonas = document.getString("cantidadPersonas")
+                    val fechaReserva = document.getString("fechaReserva")
+                    val horario = document.getString("horario")
+                    val comentarios = document.getString("comentarios")
+                    val ticketDouble = document.getDouble("ticket")
+                    val ticket = ticketDouble?.toInt()
+                    val estado = document.getString("estado")
+                    val userId = document.getString("userId")
+                    val reservaId = document.id
+                    val reserva = Reserva(nombres!!, telefono!!, cantPersonas!!, fechaReserva!!, horario!!, comentarios!!, ticket!!, estado!!,
+                        userId!!, reservaId!!)
+                    listData.add(reserva)
+                }
             }
             mutableData.value = listData
         }
         return mutableData
     }
+
+        fun updateReservaUser(reservaId: String, newReserva: Reserva) {
+            val reservaRef = reservaCollection.document(reservaId)
+            // Crear un nuevo mapa con los campos que quieres actualizar
+            val updates = hashMapOf<String, Any>(
+                "telefono" to newReserva.telefono,
+                "cantidadPersonas" to newReserva.cantidadPersonas,
+                "fechaReserva" to newReserva.fechaReserva,
+                "horario" to newReserva.horario,
+                "comentarios" to newReserva.comentarios
+            )
+            // Actualizar el documento en Firestore
+            reservaRef.update(updates)
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        }
+
 
     fun updateReservaEstado(reservaId: String, newEstado: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val reservaRef = reservaCollection.document(reservaId)
@@ -99,7 +121,6 @@ class Repo {
     }
 
     fun downloadPdfFromFirebaseStorage(assetName: String, context: Context, onDownloadComplete: (File) -> Unit) {
-        val storage = Firebase.storage
         val storageRef = storage.reference
         val pdfRef = storageRef.child("pdf/$assetName")
         val tempFile = File.createTempFile("temp", null, context.cacheDir)

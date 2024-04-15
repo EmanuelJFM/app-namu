@@ -91,7 +91,7 @@ class CreateReservationFragment : Fragment() {
             // Asignar el ID del usuario logueado a la reserva
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
-                reserva.id = it.uid
+                reserva.userId = it.uid
             }
             repo.saveReserva(
                 reserva,
