@@ -6,7 +6,7 @@
 >
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
         <LinearLayout
@@ -14,7 +14,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="50dp">
+                android:layout_marginTop="10dp">
             <ImageView
                     android:id="@+id/iv_user_photo"
                     android:src="@drawable/baseline_account_circle_24"
@@ -68,13 +68,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
-
                 <TextView
                         android:id="@+id/tv_actualizar_cuenta"
                         android:layout_width="0dp"
+                        android:layout_marginRight="45dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Actualizar mi cuenta"
+                        android:text="Actualizar cuenta"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:drawableEnd="@drawable/bxs_user_account"
@@ -87,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Cancelar pedido"
+                        android:layout_marginRight="25dp"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:drawableEnd="@drawable/bx_calendar_x"
@@ -105,6 +106,7 @@
                         android:id="@+id/tv_queja_sugerencia"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="45dp"
                         android:layout_weight="1"
                         android:text="Queja o sugerencia"
                         android:textSize="15sp"
@@ -117,8 +119,9 @@
                         android:id="@+id/tv_contactar_empresa"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="25dp"
                         android:layout_weight="1"
-                        android:text="Contactar con la empresa"
+                        android:text="Contactar empresa"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:drawableEnd="@drawable/bxs_phone_outgoing"
@@ -137,10 +140,11 @@
                 android:textSize="20sp"
                 android:layout_marginTop="20dp"/>
         <!-- Card de visitas -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardElevation="4dp">
 
             <LinearLayout
@@ -148,20 +152,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp">
-
                 <TextView
                         android:id="@+id/tv_visitas_mes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Visitas realizadas en el mes"/>
-
                 <TextView
                         android:id="@+id/tv_visitas_numero"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"/>
-
                 <TextView
                         android:id="@+id/tv_visitas"
                         android:layout_width="wrap_content"
@@ -169,7 +170,8 @@
                         android:text="visitas"
                         android:layout_marginStart="8dp"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -214,7 +216,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="100dp">
+                android:layout_marginTop="70dp"
+                android:layout_gravity="bottom">
 
             <TextView
                     android:id="@+id/tvCerrar"
@@ -230,9 +233,12 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"/>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:gravity="right">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
                 <ImageView
                         android:id="@+id/iv_facebook"
                         android:layout_width="wrap_content"
@@ -257,6 +263,5 @@
                         android:src="@drawable/bxl_twitter"/>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>

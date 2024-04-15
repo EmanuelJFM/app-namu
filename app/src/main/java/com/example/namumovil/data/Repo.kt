@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.namumovil.model.Reserva
 import com.example.namumovil.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -41,6 +42,22 @@ class Repo {
         }
 
         return mutableData
+    }
+
+    fun updateUserData(newName: String, newCell: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId != null) {
+            val updates = hashMapOf<String, Any>(
+                "name" to newName,
+                "phone" to newCell
+            )
+            userCollection.document(userId).update(updates)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { e -> onFailure(e) }
+        } else {
+            onFailure(Exception("User not logged in"))
+        }
     }
 
     fun saveReserva(reserva: Reserva, onSuccess: () -> Unit, onFailure: () -> Unit) {

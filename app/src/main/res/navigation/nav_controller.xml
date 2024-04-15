@@ -22,4 +22,11 @@
             android:name="com.example.namumovil.fragments.SeeReservationFragment"
             android:label="Mis Reservas"
             tools:layout="@layout/fragment_see_reservation" />
+    <fragment
+            android:id="@+id/userConfigurationFragment"
+            android:name="com.example.namumovil.fragments.UserConfigurationFragment"
+            tools:layout="@layout/fragment_user_configuration"
+            android:label="UserConfigurationFragment" >
+    </fragment>
+
 </navigation>

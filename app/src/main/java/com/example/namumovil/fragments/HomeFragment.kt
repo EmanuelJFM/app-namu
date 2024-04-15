@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.namumovil.LoginForm
 import com.example.namumovil.R
 import com.example.namumovil.databinding.FragmentHomeBinding
@@ -84,6 +85,13 @@ class HomeFragment : Fragment() {
             val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(mapIntent)
         }
+        binding.tvActualizarCuenta.setOnClickListener {
+            // Obtener el NavController
+            val navController = findNavController()
+            // Navegar al fragmento UserConfigurationFragment
+            navController.navigate(R.id.userConfigurationFragment)
+        }
+
 
         binding.tvCancelarPedido.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())

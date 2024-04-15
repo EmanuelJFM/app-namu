@@ -16,6 +16,9 @@ class UserViewModel(): ViewModel() {
     fun getCurrentUserData(): LiveData<User> {
         return repo.getCurrentUserData()
     }
+    fun updateUserData(newName: String, newCell: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        repo.updateUserData(newName, newCell, onSuccess, onFailure)
+    }
 
     fun descargarPdfYMostrarChooser(assetName: String, context: Context) {
         repo.downloadPdfFromFirebaseStorage(assetName, context) { file ->
