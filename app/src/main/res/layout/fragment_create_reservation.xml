@@ -116,20 +116,18 @@ android:background="@drawable/fondo_principal">
                         </com.google.android.material.textfield.TextInputLayout>
                         <!-- Para la hora -->
                         <com.google.android.material.textfield.TextInputLayout
-                                style="?attr/textInputFilledStyle"
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                 android:layout_width="match_parent"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="20dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="15dp"
                                 android:hint="Ingrese la hora">
-
-                            <com.google.android.material.textfield.TextInputEditText
+                            <AutoCompleteTextView
                                     android:id="@+id/et_Time"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/cardview_light_background"
-                                    android:focusable="false"
+                                    android:inputType="none"
                                     android:clickable="true"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout

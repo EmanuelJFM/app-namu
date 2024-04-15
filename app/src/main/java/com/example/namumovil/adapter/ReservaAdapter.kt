@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namumovil.R
 import com.example.namumovil.model.Reserva
-import com.example.namumovil.ItemClick
+import com.example.namumovil.interfaces.ItemClick
 import com.example.namumovil.viewmodel.ReservaViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 

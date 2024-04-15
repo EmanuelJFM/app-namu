@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namumovil.R
 import com.example.namumovil.adapter.ReservaAdapter
 import com.example.namumovil.viewmodel.ReservaViewModel
-import com.example.namumovil.ItemClick
+import com.example.namumovil.interfaces.ItemClick
 import com.example.namumovil.databinding.FragmentSeeReservationBinding
 import com.example.namumovil.model.Reserva
 import com.google.firebase.auth.FirebaseAuth
