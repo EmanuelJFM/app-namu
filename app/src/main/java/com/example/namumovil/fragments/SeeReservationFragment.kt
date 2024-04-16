@@ -39,6 +39,7 @@ class SeeReservationFragment : Fragment(), ItemClick {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         viewModel = ViewModelProvider(this).get(ReservaViewModel::class.java)
+
         adapter = ReservaAdapter(ArrayList(), this, viewModel)
         radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
         recyclerView.layoutManager = LinearLayoutManager(context)
