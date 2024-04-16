@@ -58,6 +58,10 @@ class UserConfigurationFragment : Fragment() {
                 }
                 .show()
         }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().navigate(R.id.item_1)
+        }
     }
     override fun onDestroyView() {
         super.onDestroyView()

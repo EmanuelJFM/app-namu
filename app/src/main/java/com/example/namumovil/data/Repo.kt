@@ -61,25 +61,27 @@ class Repo {
             onFailure(Exception("User not logged in"))
         }
     }
-    fun getHorarios(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
-        val horarios = mutableListOf<String>()
-        val db = horariosCollection
+    fun getHorarios(onSuccess: (Map<String, List<String>>) -> Unit, onFailure: () -> Unit) {
+        val horariosMap = mutableMapOf<String, List<String>>()
+        horariosCollection
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val horarioList = document.get("horario") as? List<*>
+                    val id = document.id
+                    val horarioList = document.get("horario") as? List<String>
                     if (horarioList != null) {
-                        for (item in horarioList) {
-                            item?.let { horarios.add(it.toString()) }
-                        }
+                        horariosMap[id] = horarioList
                     }
                 }
-                onSuccess(horarios)
+                onSuccess(horariosMap)
             }
             .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
                 onFailure()
             }
     }
+
+
     fun saveReserva(reserva: Reserva, onSuccess: () -> Unit, onFailure: () -> Unit) {
         ultimoNumeroTicket++
         val numeroTicket = ultimoNumeroTicket
@@ -104,6 +106,7 @@ class Repo {
                 val userReservaId = document.getString("userId")
                 if (userReservaId == loggedInUserId) {
                     val nombres = document.getString("nombres")
+                    val mesa = document.getString("mesa")
                     val telefono = document.getString("telefono")
                     val cantPersonas = document.getString("cantidadPersonas")
                     val fechaReserva = document.getString("fechaReserva")
@@ -114,7 +117,7 @@ class Repo {
                     val estado = document.getString("estado")
                     val userId = document.getString("userId")
                     val reservaId = document.id
-                    val reserva = Reserva(nombres!!, telefono!!, cantPersonas!!, fechaReserva!!, horario!!, comentarios!!, ticket!!, estado!!,
+                    val reserva = Reserva(nombres!!,mesa!!, telefono!!, cantPersonas!!, fechaReserva!!, horario!!, comentarios!!, ticket!!, estado!!,
                         userId!!, reservaId!!)
                     listData.add(reserva)
                 }
@@ -123,6 +126,28 @@ class Repo {
         }
         return mutableData
     }
+
+    fun getReservasForDateAndTable(date: String, table: String): LiveData<List<Reserva>> {
+        val mutableData = MutableLiveData<List<Reserva>>()
+
+        reservaCollection.whereEqualTo("fechaReserva", date).whereEqualTo("mesa", table).get().addOnSuccessListener { documents ->
+            val reservas = documents.mapNotNull { document ->
+                val reserva = document.toObject(Reserva::class.java)
+                if (reserva.estado != "Cancelado") {
+                    reserva
+                } else {
+                    null
+                }
+            }
+            mutableData.value = reservas
+        }.addOnFailureListener { exception ->
+            Log.w(TAG, "Error getting reservations for date: $date and table: $table", exception)
+        }
+
+        return mutableData
+    }
+
+
 
     fun getNumberOfReservations(callback: (Int) -> Unit) {
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -157,15 +182,12 @@ class Repo {
                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
         }
-
-
     fun updateReservaEstado(reservaId: String, newEstado: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val reservaRef = reservaCollection.document(reservaId)
 
         val dataToUpdate = hashMapOf<String, Any>(
             "estado" to newEstado
         )
-
         reservaRef.update(dataToUpdate)
             .addOnSuccessListener {
                 onSuccess()
@@ -174,7 +196,6 @@ class Repo {
                 onFailure()
             }
     }
-
     fun downloadPdfFromFirebaseStorage(assetName: String, context: Context, onDownloadComplete: (File) -> Unit) {
         val storageRef = storage.reference
         val pdfRef = storageRef.child("pdf/$assetName")
@@ -187,6 +208,5 @@ class Repo {
             throw it
         }
     }
-
 }
 
