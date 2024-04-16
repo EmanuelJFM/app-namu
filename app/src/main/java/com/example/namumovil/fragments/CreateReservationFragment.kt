@@ -1,5 +1,6 @@
 package com.example.namumovil.fragments
 
+import SendEmail
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -108,6 +109,9 @@ class CreateReservationFragment : Fragment() {
                             }
                             .show()
                     }
+                    // Aquí llamamos a la función sendEmail
+                    val sendEmail = context?.let { it1 -> SendEmail(it1) }
+                    sendEmail?.sendEmail()
                 },
                 {
                     Toast.makeText(context, "Ocurrió un error al guardar la reserva", Toast.LENGTH_SHORT).show()
@@ -115,7 +119,7 @@ class CreateReservationFragment : Fragment() {
             )
         }
     }
-    private fun createDatePicker(): MaterialDatePicker<Long> {
+        private fun createDatePicker(): MaterialDatePicker<Long> {
         val today = MaterialDatePicker.todayInUtcMilliseconds()
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.timeInMillis = today
