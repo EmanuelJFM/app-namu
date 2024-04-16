@@ -12,19 +12,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.namumovil.LoginForm
 import com.example.namumovil.R
+import com.example.namumovil.adapter.CarouselAdapter
+import com.example.namumovil.data.Repo
 import com.example.namumovil.databinding.FragmentHomeBinding
 import com.example.namumovil.viewmodel.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.carousel.CarouselLayoutManager
+import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
@@ -34,8 +40,8 @@ import java.io.IOException
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel:UserViewModel
-
+    private lateinit var viewModel: UserViewModel
+    private lateinit var carouselAdapter: CarouselAdapter
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
@@ -53,8 +59,32 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         initializeFirebaseAuth()
         initializeGoogleSignInClient()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.carousel_recycler_view)
+        val arrayList = arrayListOf(
+            "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/5773996/pexels-photo-5773996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/3386854/pexels-photo-3386854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/5339080/pexels-photo-5339080.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        )
 
-        binding.tvCerrar.setOnClickListener {
+        carouselAdapter = CarouselAdapter(requireContext(), arrayList)
+        recyclerView.adapter = carouselAdapter
+
+        carouselAdapter.onItemClickListener = object : CarouselAdapter.OnItemClickListener {
+            override fun onClick(imageView: ImageView, path: String) {
+                val imageViewFragment = ImageViewFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("image", path)
+                    }
+                }
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, imageViewFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
+        binding.tvCerrarSesion.setOnClickListener {
             signOutAndStartLoginFormActivity()
         }
         viewModel.getCurrentUserData().observe(viewLifecycleOwner, Observer { user ->
@@ -91,19 +121,6 @@ class HomeFragment : Fragment() {
             // Navegar al fragmento UserConfigurationFragment
             navController.navigate(R.id.userConfigurationFragment)
         }
-
-
-        binding.tvCancelarPedido.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Cancelar pedido")
-                .setMessage("Si desea cancelar un pedido por favor realizarlo precesialmente en nuetras sedes en todo Lima\n" +
-                        "Los horarios de atencion son de 11:00 am - 09:00 pm")
-                .setPositiveButton("Cerrar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-
         binding.tvQuejaSugerencia.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Queja o sugerencia")
@@ -130,7 +147,6 @@ class HomeFragment : Fragment() {
                 }
                 .show()
         }
-
     }
     //Google auth logout
     private fun initializeFirebaseAuth() {

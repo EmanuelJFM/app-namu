@@ -24,6 +24,7 @@ class Repo {
     private val userCollection: CollectionReference = FirebaseFirestore.getInstance().collection("users")
     private val horariosCollection: CollectionReference = FirebaseFirestore.getInstance().collection("horarios")
     private val storage = FirebaseStorage.getInstance()
+
     private val mutableData = MutableLiveData<MutableList<Reserva>>()
     private var ultimoNumeroTicket: Int = 1000
 
@@ -158,6 +159,18 @@ class Repo {
             }
     }
 
+    fun getCarouselPhotos(): List<String> {
+        val storageRef = storage.getReferenceFromUrl("gs://namu-movil.appspot.com/photos-carrousel")
+        val photoUrls = mutableListOf<String>()
+        storageRef.listAll().addOnSuccessListener { listResult ->
+            listResult.items.forEach { photoRef ->
+                photoRef.downloadUrl.addOnSuccessListener { uri ->
+                    photoUrls.add(uri.toString())
+                }
+            }
+        }
+        return photoUrls
+    }
     fun downloadPdfFromFirebaseStorage(assetName: String, context: Context, onDownloadComplete: (File) -> Unit) {
         val storageRef = storage.reference
         val pdfRef = storageRef.child("pdf/$assetName")
