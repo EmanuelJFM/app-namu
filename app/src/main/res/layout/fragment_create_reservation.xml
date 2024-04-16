@@ -50,6 +50,7 @@ android:background="@drawable/fondo_principal">
                                 android:layout_height="wrap_content"
                                 app:endIconMode="clear_text"
                                 android:paddingLeft="20dp"
+                                android:visibility="gone"
                                 android:paddingRight="20dp"
                                 android:layout_marginBottom="15dp"
                                 android:hint="Ingrese su Nombre">
@@ -60,6 +61,21 @@ android:background="@drawable/fondo_principal">
                                     android:enabled="false"
                                     android:background="@color/cardview_light_background"
                             />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Seleccione su mesa">
+                            <AutoCompleteTextView
+                                    android:id="@+id/et_Table"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="none"
+                                    android:clickable="true"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
                                 style="?attr/textInputFilledStyle"
@@ -77,6 +93,7 @@ android:background="@drawable/fondo_principal">
                                     android:layout_height="wrap_content"
                                     android:background="@color/cardview_light_background"
                                     android:inputType="phone"
+                                    android:maxLength="9"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
@@ -91,6 +108,7 @@ android:background="@drawable/fondo_principal">
                             <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_NumPeople"
                                     android:layout_width="match_parent"
+                                    android:maxLength="2"
                                     android:background="@color/cardview_light_background"
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
@@ -122,7 +140,7 @@ android:background="@drawable/fondo_principal">
                                 android:paddingRight="20dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="15dp"
-                                android:hint="Ingrese la hora">
+                                android:hint="Seleccione el horario">
                             <AutoCompleteTextView
                                     android:id="@+id/et_Time"
                                     android:layout_width="match_parent"

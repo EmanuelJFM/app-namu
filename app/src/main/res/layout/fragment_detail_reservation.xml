@@ -53,11 +53,27 @@
                                 android:hint="Nombre">
                             <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_NameEdit"
+                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:enabled="false"
                                     android:background="@color/cardview_light_background"
                             />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                android:layout_width="match_parent"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:hint="Seleccione su mesa">
+                            <AutoCompleteTextView
+                                    android:id="@+id/et_TableEdit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="none"
+                                    android:clickable="true"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
                             android:textColor="@color/cardview_light_background"
@@ -74,6 +90,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="phone"
+                                    android:maxLength="9"
                                     android:background="@color/cardview_light_background"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -92,6 +109,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
+                                    android:maxLength="2"
                                     android:background="@color/cardview_light_background"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -114,21 +132,19 @@
                             />
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
-                                android:textColor="@color/cardview_light_background"
-                                style="?attr/textInputFilledStyle"
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:endIconMode="clear_text"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="20dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginBottom="15dp"
-                                android:hint="Horarios">
-                            <com.google.android.material.textfield.TextInputEditText
+                                android:hint="Seleccione el horario">
+                            <AutoCompleteTextView
                                     android:id="@+id/et_TimeEdit"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/cardview_light_background"
-                            />
+                                    android:inputType="none"
+                                    android:clickable="true"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <com.google.android.material.textfield.TextInputLayout
                                 android:textColor="@color/cardview_light_background"

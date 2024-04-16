@@ -37,17 +37,4 @@ class UserViewModel(): ViewModel() {
             context.startActivity(chooser)
         }
     }
-
-    fun getCarouselPhotos() {
-        val storageRef = storage.getReferenceFromUrl("gs://namu-movil.appspot.com/photos-carrousel")
-        val photoUrls = mutableListOf<String>()
-        storageRef.listAll().addOnSuccessListener { listResult ->
-            listResult.items.forEach { photoRef ->
-                photoRef.downloadUrl.addOnSuccessListener { uri ->
-                    photoUrls.add(uri.toString())
-                }
-            }
-            _photoUrls.value = photoUrls
-        }
-    }
 }

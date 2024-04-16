@@ -2,15 +2,18 @@ package com.example.namumovil.fragments
 
 import SendEmail
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.namumovil.R
+import com.example.namumovil.data.InputFilterMinMax
 import com.example.namumovil.data.Repo
 import com.example.namumovil.databinding.FragmentCreateReservationBinding
 import com.example.namumovil.model.Reserva
@@ -30,6 +33,9 @@ class CreateReservationFragment : Fragment() {
     private var _binding: FragmentCreateReservationBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: UserViewModel
+    private lateinit var etTable: AutoCompleteTextView
+    private lateinit var etTime: AutoCompleteTextView
+    private lateinit var repo: Repo
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,36 +48,57 @@ class CreateReservationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // DatePicker
         val datePicker = createDatePicker()
-        binding.etDate.setOnClickListener {
-            datePicker.show(childFragmentManager, "datePicker")
-        }
+        binding.etNumPeople.filters = arrayOf<InputFilter>(InputFilterMinMax(1, 10))
+        etTable = view.findViewById(R.id.et_Table)
+        etTime = view.findViewById(R.id.et_Time)
         datePicker.addOnPositiveButtonClickListener {
             // Convertir el timestamp a una fecha legible
             val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val date = sdf.format(Date(it))
             binding.etDate.setText(date)
         }
+        repo = Repo()
+        repo.getHorarios({ horariosMap ->
+            val ids = horariosMap.keys.toList()
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ids)
+            etTable.setAdapter(adapter)
+            etTable.setOnItemClickListener { _, _, position, _ ->
+                val selectedId = ids[position]
+                val horarios = horariosMap[selectedId]
+                if (horarios != null) {
+                    repo.getReservasForDateAndTable(binding.etDate.text.toString(), selectedId).observe(viewLifecycleOwner) { reservas ->
+                        // Obtener los horarios reservados que no están cancelados
+                        val horariosReservados = reservas.filter { it.estado != "Cancelado" }.map { it.horario }
+
+                        // Filtrar los horarios disponibles
+                        val horariosDisponibles = horarios.filter { !horariosReservados.contains(it) }
+
+                        // Actualizar el adaptador de horarios
+                        val timeAdapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_dropdown_item_1line,
+                            horariosDisponibles
+                        )
+                        etTime.setAdapter(timeAdapter)
+                    }
+                }
+            }
+        }, {
+            Toast.makeText(context, "Error al obtener los horarios", Toast.LENGTH_SHORT).show()
+        })
+        binding.etDate.setOnClickListener {
+            datePicker.show(childFragmentManager, "datePicker")
+        }
+
         val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.getCurrentUserData().observe(viewLifecycleOwner, androidx.lifecycle.Observer { user ->
             binding.etName.setText(user.name)
             binding.etPhone.setText(user.phone)
         })
-        val repo: Repo = Repo()
-        repo.getHorarios(
-            onSuccess = { horarios ->
-                // Crea un ArrayAdapter con los horarios
-                val adapter = ArrayAdapter(requireContext(), R.layout.item_horarios, horarios)
-                val autoCompleteTextView = binding.etTime
-                autoCompleteTextView.setAdapter(adapter)
-
-            },
-            onFailure = {
-
-            })
-
         binding.btnRegister.setOnClickListener {
             // Validar que todos los campos estén llenos
             if (binding.etName.text.isNullOrEmpty() ||
+                binding.etTable.text.isNullOrEmpty() ||
                 binding.etPhone.text.isNullOrEmpty() ||
                 binding.etNumPeople.text.isNullOrEmpty() ||
                 binding.etDate.text.isNullOrEmpty() ||
@@ -83,6 +110,7 @@ class CreateReservationFragment : Fragment() {
             val repo = Repo()
             val reserva = Reserva(
                 binding.etName.text.toString(),
+                binding.etTable.text.toString(),
                 binding.etPhone.text.toString(),
                 binding.etNumPeople.text.toString(),
                 binding.etDate.text.toString(),
