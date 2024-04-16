@@ -41,6 +41,7 @@ class SeeReservationFragment : Fragment(), ItemClick {
         viewModel = ViewModelProvider(this).get(ReservaViewModel::class.java)
         adapter = ReservaAdapter(ArrayList(), this, viewModel)
         radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         val loggedInUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         viewModel.getReservaData(loggedInUserId).observe(viewLifecycleOwner, Observer { reservas ->
