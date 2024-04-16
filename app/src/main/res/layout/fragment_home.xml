@@ -12,41 +12,50 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
-            <ImageView
-                    android:id="@+id/iv_user_photo"
-                    android:src="@drawable/baseline_account_circle_24"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-            />
+                android:orientation="vertical">
+
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp">
-                <TextView
-                        android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                <ImageView
+                        android:id="@+id/iv_user_photo"
+                        android:src="@drawable/baseline_account_circle_24"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"/>
+
+                <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Bienvenido"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:layout_marginTop="20dp"/>
-                <TextView
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre del usuario"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
-                <TextView
-                        android:id="@+id/tv_user_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Correo del usuario"
-                        android:textSize="16sp"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bienvenido"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:layout_marginTop="30dp"/>
+
+                    <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre del usuario"
+                            android:textStyle="bold"
+                            android:textSize="20sp"/>
+
+                    <TextView
+                            android:id="@+id/tv_user_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Correo del usuario"
+                            android:textSize="16sp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <TextView
@@ -61,8 +70,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="30dp">
-
+                android:layout_marginTop="20dp">
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,33 +88,30 @@
                         android:drawableEnd="@drawable/bxs_user_account"
                         android:clickable="true"
                         android:focusable="true"/>
-
                 <TextView
-                        android:id="@+id/tv_cancelar_pedido"
+                        android:id="@+id/tv_contactar_empresa"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cancelar pedido"
-                        android:layout_marginRight="25dp"
+                        android:text="Contactar Empresa"
+                        android:layout_marginRight="30dp"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:drawableEnd="@drawable/bx_calendar_x"
                         android:clickable="true"
                         android:focusable="true"/>
             </LinearLayout>
-
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
-
+                    android:layout_marginTop="10dp">
                 <TextView
                         android:id="@+id/tv_queja_sugerencia"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="45dp"
+                        android:layout_marginRight="30dp"
                         android:layout_weight="1"
                         android:text="Queja o sugerencia"
                         android:textSize="15sp"
@@ -114,23 +119,20 @@
                         android:drawableEnd="@drawable/bxl_gmail"
                         android:clickable="true"
                         android:focusable="true"/>
-
                 <TextView
-                        android:id="@+id/tv_contactar_empresa"
+                        android:id="@+id/tv_cerrar_sesion"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginRight="25dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Contactar empresa"
+                        android:text="Cerrar sesion actual"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:drawableEnd="@drawable/bxs_phone_outgoing"
+                        android:drawableEnd="@drawable/bx_log_out"
                         android:clickable="true"
                         android:focusable="true"/>
             </LinearLayout>
         </LinearLayout>
-
-        <!-- Actividades recientes -->
         <TextView
                 android:id="@+id/tv_recent_activities"
                 android:layout_width="wrap_content"
@@ -139,14 +141,12 @@
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginTop="20dp"/>
-        <!-- Card de visitas -->
         <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardElevation="4dp">
-
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Visitas realizadas en el mes"/>
+                        android:text="Visitas realizadas hasta la fecha"/>
                 <TextView
                         android:id="@+id/tv_visitas_numero"
                         android:layout_width="wrap_content"
@@ -171,21 +171,62 @@
                         android:layout_marginStart="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Conoce Namu"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="10dp"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="left">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nuestras redes"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"/>
+            <ImageView
+                    android:id="@+id/iv_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bxl_facebook_circle"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"/>
+
+            <ImageView
+                    android:id="@+id/iv_instagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@drawable/bxl_instagram_alt"
+                    android:layout_marginStart="8dp"/>
+
+            <ImageView
+                    android:id="@+id/iv_twitter"
+                    android:layout_width="wrap_content"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bxl_twitter"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+                android:id="@+id/carousel_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="196dp"
+                android:clipChildren="false"
+                android:clipToPadding="false" />
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="30dp">
-
+                android:layout_marginTop="10dp">
             <TextView
                     android:id="@+id/tv_ver_carta"
                     android:layout_marginRight="45dp"
@@ -210,58 +251,6 @@
                     android:drawableEnd="@drawable/bxs_store_alt"
                     android:clickable="true"
                     android:focusable="true"/>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="70dp"
-                android:layout_gravity="bottom">
-
-            <TextView
-                    android:id="@+id/tvCerrar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Cerrar sesión"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:drawableStart="@drawable/bx_log_out"
-                    android:drawablePadding="8dp"
-                    android:drawableTint="@color/black"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"/>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right">
-
-                <ImageView
-                        android:id="@+id/iv_facebook"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bxl_facebook_circle"
-                        android:padding="10dp"
-                        android:layout_marginStart="8dp"/>
-
-                <ImageView
-                        android:id="@+id/iv_instagram"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:src="@drawable/bxl_instagram_alt"
-                        android:layout_marginStart="8dp"/>
-
-                <ImageView
-                        android:id="@+id/iv_twitter"
-                        android:layout_width="wrap_content"
-                        android:padding="10dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bxl_twitter"/>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

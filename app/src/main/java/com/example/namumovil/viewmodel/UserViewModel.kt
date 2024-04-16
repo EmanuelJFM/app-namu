@@ -9,9 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.namumovil.data.Repo
 import com.example.namumovil.model.User
+import com.google.firebase.storage.FirebaseStorage
 
 class UserViewModel(): ViewModel() {
     private val repo = Repo()
+    private val _photoUrls = MutableLiveData<List<String>>()
+    private val storage = FirebaseStorage.getInstance()
+    val photoUrls: LiveData<List<String>> get() = _photoUrls
 
     fun getCurrentUserData(): LiveData<User> {
         return repo.getCurrentUserData()
@@ -31,6 +35,19 @@ class UserViewModel(): ViewModel() {
             val chooser = Intent.createChooser(intent, "Elige una aplicación para abrir el PDF")
             // Inicia el chooser
             context.startActivity(chooser)
+        }
+    }
+
+    fun getCarouselPhotos() {
+        val storageRef = storage.getReferenceFromUrl("gs://namu-movil.appspot.com/photos-carrousel")
+        val photoUrls = mutableListOf<String>()
+        storageRef.listAll().addOnSuccessListener { listResult ->
+            listResult.items.forEach { photoRef ->
+                photoRef.downloadUrl.addOnSuccessListener { uri ->
+                    photoUrls.add(uri.toString())
+                }
+            }
+            _photoUrls.value = photoUrls
         }
     }
 }
