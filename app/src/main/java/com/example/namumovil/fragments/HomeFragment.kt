@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     private lateinit var carouselAdapter: CarouselAdapter
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var repo: Repo
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
         initializeFirebaseAuth()
         initializeGoogleSignInClient()
         val recyclerView = view.findViewById<RecyclerView>(R.id.carousel_recycler_view)
+        repo = Repo()
         val arrayList = arrayListOf(
             "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "https://images.pexels.com/photos/5773996/pexels-photo-5773996.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -82,6 +84,10 @@ class HomeFragment : Fragment() {
                     .addToBackStack(null)
                     .commit()
             }
+        }
+
+        repo.getNumberOfReservations { numberOfReservations ->
+            binding.tvVisitasNumero.text = numberOfReservations.toString()
         }
 
         binding.tvCerrarSesion.setOnClickListener {

@@ -80,8 +80,6 @@ class Repo {
                 onFailure()
             }
     }
-
-
     fun saveReserva(reserva: Reserva, onSuccess: () -> Unit, onFailure: () -> Unit) {
         ultimoNumeroTicket++
         val numeroTicket = ultimoNumeroTicket
@@ -126,6 +124,24 @@ class Repo {
         return mutableData
     }
 
+    fun getNumberOfReservations(callback: (Int) -> Unit) {
+        val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val userId = firebaseAuth.currentUser?.uid
+        if (userId != null) {
+           reservaCollection
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    callback(documents.size())
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents: ", exception)
+                }
+        } else {
+            Log.w(TAG, "No user is currently logged in.")
+        }
+    }
+
         fun updateReservaUser(reservaId: String, newReserva: Reserva) {
             val reservaRef = reservaCollection.document(reservaId)
             // Crear un nuevo mapa con los campos que quieres actualizar
@@ -159,18 +175,6 @@ class Repo {
             }
     }
 
-    fun getCarouselPhotos(): List<String> {
-        val storageRef = storage.getReferenceFromUrl("gs://namu-movil.appspot.com/photos-carrousel")
-        val photoUrls = mutableListOf<String>()
-        storageRef.listAll().addOnSuccessListener { listResult ->
-            listResult.items.forEach { photoRef ->
-                photoRef.downloadUrl.addOnSuccessListener { uri ->
-                    photoUrls.add(uri.toString())
-                }
-            }
-        }
-        return photoUrls
-    }
     fun downloadPdfFromFirebaseStorage(assetName: String, context: Context, onDownloadComplete: (File) -> Unit) {
         val storageRef = storage.reference
         val pdfRef = storageRef.child("pdf/$assetName")
