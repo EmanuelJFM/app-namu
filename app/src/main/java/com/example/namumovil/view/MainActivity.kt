@@ -28,12 +28,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> null
             }
-
             if (fragment != null) {
                 supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
             }
             true
         }
-
     }
 }

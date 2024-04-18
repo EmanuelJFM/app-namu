@@ -85,10 +85,8 @@ class DetailReservationFragment : Fragment() {
                     repo.getReservasForDateAndTable(binding.etDateEdit.text.toString(), selectedId).observe(viewLifecycleOwner) { reservas ->
                         // Obtener los horarios reservados que no están cancelados
                         val horariosReservados = reservas.filter { it.estado != "Cancelado" }.map { it.horario }
-
                         // Filtrar los horarios disponibles
                         val horariosDisponibles = horarios.filter { !horariosReservados.contains(it) }
-
                         // Actualizar el adaptador de horarios
                         val timeAdapter = ArrayAdapter(
                             requireContext(),
@@ -145,12 +143,6 @@ class DetailReservationFragment : Fragment() {
             transaction.commit()
         }
     }
-
-    private fun getStatusIndex(statusOptions: Array<String>, status: String): Int {
-        val statusList = statusOptions.toList()
-        return statusList.indexOf(status)
-    }
-
     private fun createDatePicker(): MaterialDatePicker<Long> {
         val today = MaterialDatePicker.todayInUtcMilliseconds()
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))

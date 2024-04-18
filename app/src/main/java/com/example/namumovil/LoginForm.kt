@@ -21,7 +21,6 @@ class LoginForm: AppCompatActivity() {
             val intent = Intent(this, GoogleAuth::class.java)
             startActivity(intent)
         }
-
         binding.btnLogin.setOnClickListener {
             val email = binding.txtEmail.text.toString()
             val password = binding.txtPassword.text.toString()
@@ -30,12 +29,10 @@ class LoginForm: AppCompatActivity() {
             intent.putExtra("password", password)
             startActivity(intent)
         }
-
         binding.lblCreateAccount.setOnClickListener {
             val intent = Intent(this, CreateAccount::class.java)
             startActivity(intent)
         }
-
         binding.lblRestartPassword.setOnClickListener {
             val intent = Intent(this, RestartPassword::class.java)
             startActivity(intent)

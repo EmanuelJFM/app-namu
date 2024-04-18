@@ -56,10 +56,8 @@ class HomeFragment : Fragment() {
             "https://images.pexels.com/photos/3386854/pexels-photo-3386854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "https://images.pexels.com/photos/5339080/pexels-photo-5339080.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         )
-
         carouselAdapter = CarouselAdapter(requireContext(), arrayList)
         recyclerView.adapter = carouselAdapter
-
         carouselAdapter.onItemClickListener = object : CarouselAdapter.OnItemClickListener {
             override fun onClick(imageView: ImageView, path: String) {
                 val imageViewFragment = ImageViewFragment().apply {
@@ -73,11 +71,9 @@ class HomeFragment : Fragment() {
                     .commit()
             }
         }
-
         repo.getNumberOfReservations { numberOfReservations ->
             binding.tvVisitasNumero.text = numberOfReservations.toString()
         }
-
         binding.tvCerrarSesion.setOnClickListener {
             signOutAndStartLoginFormActivity()
         }
@@ -86,20 +82,15 @@ class HomeFragment : Fragment() {
             binding.tvUserEmail.text = user.email
         })
         binding.tvVerCarta.setOnClickListener {
-            viewModel.descargarPdfYMostrarChooser("Fridays_Carta.pdf", requireContext())
+            viewModel.descargarPdfYMostrarChooser("carta_namu.pdf", requireContext())
         }
         binding.ivFacebook.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/CONAMU.AlimentoCoreano/?locale=es_LA"))
             startActivity(intent)
         }
 
         binding.ivInstagram.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com"))
-            startActivity(intent)
-        }
-
-        binding.ivTwitter.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/conamu.peru/?hl=es"))
             startActivity(intent)
         }
         binding.tvVerLocal.setOnClickListener {
@@ -110,9 +101,7 @@ class HomeFragment : Fragment() {
             startActivity(mapIntent)
         }
         binding.tvActualizarCuenta.setOnClickListener {
-            // Obtener el NavController
             val navController = findNavController()
-            // Navegar al fragmento UserConfigurationFragment
             navController.navigate(R.id.userConfigurationFragment)
         }
         binding.tvQuejaSugerencia.setOnClickListener {
@@ -146,7 +135,6 @@ class HomeFragment : Fragment() {
     private fun initializeFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance()
     }
-
     private fun initializeGoogleSignInClient() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))

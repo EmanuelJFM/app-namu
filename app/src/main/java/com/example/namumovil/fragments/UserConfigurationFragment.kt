@@ -17,36 +17,30 @@ class UserConfigurationFragment : Fragment() {
     private var _binding: FragmentUserConfigurationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserConfigurationBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.btnUserUpdate.setOnClickListener {
             val newName = binding.etUserUpdate.text.toString()
             val newCell = binding.etPhoneUpdate.text.toString()
-
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Confirmación")
                 .setMessage("¿Estás seguro de que quieres actualizar tus datos?")
                 .setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
-                    // Redirigir al fragmento Home usando NavController
                     findNavController().navigate(R.id.item_1)
                 }
                 .setPositiveButton("Sí") { dialog, _ ->
                     viewModel.updateUserData(newName, newCell,
                         onSuccess = {
-                            // Mostrar un diálogo de confirmación
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle("Éxito")
                                 .setMessage("Tus datos han sido actualizados.")
                                 .setPositiveButton("OK") { successDialog, _ ->
                                     successDialog.dismiss()
-                                    // Redirigir al fragmento Home usando NavController
                                     findNavController().navigate(R.id.item_1)
                                 }
                                 .show()
@@ -58,7 +52,6 @@ class UserConfigurationFragment : Fragment() {
                 }
                 .show()
         }
-
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.item_1)
         }

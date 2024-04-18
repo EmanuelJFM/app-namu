@@ -67,13 +67,9 @@ class CreateReservationFragment : Fragment() {
                 val horarios = horariosMap[selectedId]
                 if (horarios != null) {
                     repo.getReservasForDateAndTable(binding.etDate.text.toString(), selectedId).observe(viewLifecycleOwner) { reservas ->
-                        // Obtener los horarios reservados que no están cancelados
                         val horariosReservados = reservas.filter { it.estado != "Cancelado" }.map { it.horario }
-
-                        // Filtrar los horarios disponibles
                         val horariosDisponibles = horarios.filter { !horariosReservados.contains(it) }
 
-                        // Actualizar el adaptador de horarios
                         val timeAdapter = ArrayAdapter(
                             requireContext(),
                             android.R.layout.simple_dropdown_item_1line,
@@ -96,7 +92,6 @@ class CreateReservationFragment : Fragment() {
             binding.etPhone.setText(user.phone)
         })
         binding.btnRegister.setOnClickListener {
-            // Validar que todos los campos estén llenos
             if (binding.etName.text.isNullOrEmpty() ||
                 binding.etTable.text.isNullOrEmpty() ||
                 binding.etPhone.text.isNullOrEmpty() ||

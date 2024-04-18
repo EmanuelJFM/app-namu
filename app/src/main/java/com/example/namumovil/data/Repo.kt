@@ -42,7 +42,6 @@ class Repo {
                 mutableData.value = user
             }
         }
-
         return mutableData
     }
 
@@ -61,6 +60,7 @@ class Repo {
             onFailure(Exception("User not logged in"))
         }
     }
+
     fun getHorarios(onSuccess: (Map<String, List<String>>) -> Unit, onFailure: () -> Unit) {
         val horariosMap = mutableMapOf<String, List<String>>()
         horariosCollection
@@ -129,7 +129,6 @@ class Repo {
 
     fun getReservasForDateAndTable(date: String, table: String): LiveData<List<Reserva>> {
         val mutableData = MutableLiveData<List<Reserva>>()
-
         reservaCollection.whereEqualTo("fechaReserva", date).whereEqualTo("mesa", table).get().addOnSuccessListener { documents ->
             val reservas = documents.mapNotNull { document ->
                 val reserva = document.toObject(Reserva::class.java)
@@ -143,11 +142,8 @@ class Repo {
         }.addOnFailureListener { exception ->
             Log.w(TAG, "Error getting reservations for date: $date and table: $table", exception)
         }
-
         return mutableData
     }
-
-
 
     fun getNumberOfReservations(callback: (Int) -> Unit) {
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -167,9 +163,8 @@ class Repo {
         }
     }
 
-        fun updateReservaUser(reservaId: String, newReserva: Reserva) {
+    fun updateReservaUser(reservaId: String, newReserva: Reserva) {
             val reservaRef = reservaCollection.document(reservaId)
-            // Crear un nuevo mapa con los campos que quieres actualizar
             val updates = hashMapOf<String, Any>(
                 "telefono" to newReserva.telefono,
                 "cantidadPersonas" to newReserva.cantidadPersonas,

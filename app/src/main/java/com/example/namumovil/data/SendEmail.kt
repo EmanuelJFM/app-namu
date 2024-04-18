@@ -15,7 +15,6 @@ class SendEmail(private val context: Context) {
     fun sendEmail() {
         val user = FirebaseAuth.getInstance().currentUser
         val db = FirebaseFirestore.getInstance()
-
         db.collection("users").document(user?.uid!!)
             .get()
             .addOnSuccessListener { document ->
@@ -30,18 +29,15 @@ class SendEmail(private val context: Context) {
                 Log.d("Firestore", "get failed with ", exception)
             }
     }
-
     private fun sendEmailWithRetrofit(email: String?) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api-mensajeria.onrender.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val emailApi = retrofit.create(EmailApi::class.java)
-
         val emailRequest = Request(
             email.toString(),"SU RESERVA HA SIDO GENERADA CON EXITO","Su reserva ha sido guardada con exito\n" +
                 "Para dudas o consultas acerca de su reserva puede comunicarse con el numero +51 987654321")
-        // Envía el correo electrónico
         emailApi.sendEmail(emailRequest).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {

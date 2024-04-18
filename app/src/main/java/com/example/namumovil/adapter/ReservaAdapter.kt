@@ -13,18 +13,15 @@ import com.example.namumovil.viewmodel.ReservaViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ReservaAdapter(private var reservas: MutableList<Reserva>, private val itemClick: ItemClick, private val viewModel: ReservaViewModel) : RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder>() {
-
     class ReservaViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvTicket: TextView = view.findViewById(R.id.tv_Ticket)
         val tvEstado: TextView = view.findViewById(R.id.tv_Estado)
         val cancelButton: ImageButton = itemView.findViewById(R.id.cancelButton)
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_reserva, parent, false)
         return ReservaViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: ReservaViewHolder, position: Int) {
         val reserva = reservas[position]
         holder.tvTicket.text = reserva.ticket.toString()
@@ -40,7 +37,6 @@ class ReservaAdapter(private var reservas: MutableList<Reserva>, private val ite
                     dialog.dismiss()
                 }
                 .setPositiveButton("Sí") { dialog, _ ->
-                    // Actualiza el estado de la reserva a "Cancelado"
                     viewModel.updateReservaEstado(reserva.reservaId, "Cancelado",
                         onSuccess = {
                             MaterialAlertDialogBuilder(it.context)

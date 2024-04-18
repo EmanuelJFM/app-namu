@@ -18,14 +18,12 @@ import com.example.namumovil.model.Reserva
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.RadioButton
 import android.widget.RadioGroup
-
 class SeeReservationFragment : Fragment(), ItemClick {
     private var _binding: FragmentSeeReservationBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ReservaAdapter
     private lateinit var viewModel: ReservaViewModel
     private lateinit var radioGroup: RadioGroup
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +31,6 @@ class SeeReservationFragment : Fragment(), ItemClick {
         _binding = FragmentSeeReservationBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
@@ -67,7 +64,6 @@ class SeeReservationFragment : Fragment(), ItemClick {
                     }
                 }
             }
-            // Inicializa el adaptador con todas las reservas
             adapter.setListData(ArrayList(allReservas))
             adapter.notifyDataSetChanged()
         })

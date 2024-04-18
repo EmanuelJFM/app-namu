@@ -13,20 +13,16 @@ import com.google.firebase.auth.FirebaseAuth
 class RestartPassword : AppCompatActivity() {
     private lateinit var binding: ActivityRestartPasswordBinding
     private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRestartPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         auth = FirebaseAuth.getInstance()
-
         binding.btnRestartPassword.setOnClickListener {
             val email = binding.txtRestartEmail.text.toString()
             sendPasswordResetEmail(email)
         }
     }
-
     private fun sendPasswordResetEmail(email: String) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->

@@ -16,14 +16,11 @@ import com.google.firebase.ktx.Firebase
 class CreateAccount : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAccountBinding
     private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         auth = Firebase.auth
-
         binding.btnCreate.setOnClickListener {
             val name = binding.txtName.text.toString().trim()
             val lastname = binding.txtLastname.text.toString().trim()
@@ -43,12 +40,10 @@ class CreateAccount : AppCompatActivity() {
             }
         }
     }
-
     private fun createAccount(fullname: String, phone: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Guarda la información adicional del usuario en Firestore
                     val db = Firebase.firestore
                     val userMap = hashMapOf(
                         "name" to fullname,
@@ -76,7 +71,6 @@ class CreateAccount : AppCompatActivity() {
                 }
             }
     }
-
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
