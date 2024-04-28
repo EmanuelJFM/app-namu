@@ -1,0 +1,1 @@
+Proyecto movil realizado con fines educativos para el curso de desarrollo de aplicaciones moviles II de Idat, la creacion de este proyecto es meramente educativo y los creditos respectivos de las imagens y nombre a cada uno de sus autores
